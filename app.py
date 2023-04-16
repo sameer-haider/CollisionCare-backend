@@ -27,4 +27,4 @@ def process_audio():
     accident_info = computing.update_accident_info(audio_file, accident_info)
 
     # return accident info dict
-    return 202, accident_info
+    return jsonify(accident_info), 202
