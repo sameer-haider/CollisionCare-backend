@@ -20,6 +20,7 @@ def index():
 @app.route("/process_audio", methods=["POST"])
 def process_audio():
     data = request.get_json()
+    print(data)
     accident_info = data["accident_info"]
     audio_file = data.get("audio_file")  # should be AWS S3 link
 
