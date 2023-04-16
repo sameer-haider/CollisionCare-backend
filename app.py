@@ -19,17 +19,13 @@ INSURANCE_ID = 210002
 NAME = "Henry Freud"
 ADDRESS = "2305 West Fairview Lane, Allen, TX, 75093"
 
+temp = 
 app.config["MYSQL_HOST"] = os.environ.get("DATABASE_HOST")
 app.config["MYSQL_USER"] = os.environ.get("DATABASE_USER")
 app.config["MYSQL_PASSWORD"] = os.environ.get("DATABASE_PASSWORD")
 app.config["MYSQL_DB"] = os.environ.get("DATABASE_NAME")
 
-db = mysql.connector.connect(
-    host=os.environ.get("DATABASE_HOST"),
-    user=os.environ.get("DATABASE_USER"),
-    password=os.environ.get("DATABASE_PASSWORD"),
-    database=os.environ.get("DATABASE_NAME"),
-)
+
 
 
 @app.route("/")
@@ -56,6 +52,12 @@ def process_audio():
 #get claim info to display on the geico employee view
 @app.route("/get_report/<int:insurance_id>", methods = ['GET'])
 def get_report(insurance_id):
+    db = mysql.connector.connect(
+        host=os.environ.get("DATABASE_HOST"),
+        user=os.environ.get("DATABASE_USER"),
+        password=os.environ.get("DATABASE_PASSWORD"),
+        database=os.environ.get("DATABASE_NAME"),
+    )
     columns = ["report_id", "insurance_id", "type_severity_of_collision", "injuries", "vehicles_involved", "damage_to_customers_car", "location_of_damage", "witnesses", "police_called", "car_is_drivable"]
     query = f"SELECT * FROM claims_history WHERE insurance_id = {insurance_id}"
     cur = db.cursor()
@@ -85,6 +87,12 @@ def get_report(insurance_id):
 
 @app.route("/submit_report", methods = ['POST'])
 def submit_report():
+    db = mysql.connector.connect(
+        host=os.environ.get("DATABASE_HOST"),
+        user=os.environ.get("DATABASE_USER"),
+        password=os.environ.get("DATABASE_PASSWORD"),
+        database=os.environ.get("DATABASE_NAME"),
+    )
     data = request.get_json()
     report_id = generate_uid()
     report_values = (report_id, INSURANCE_ID, data['type_severity_of_collision'], 
