@@ -18,6 +18,7 @@ with open("full_report_audio.m4a", "rb") as audio_file:
 
 def add_to_s3(audio_base64):
     bucket_name = "audio-files-hackai-utd"
+    audio_base64 = audio_base64[23:]
 
     # Decode the audio file from Base64
     audio_bytes = base64.b64decode(audio_base64)
