@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask_cors import CORS
 
 # import aws_credentials as rds
@@ -16,5 +16,9 @@ def index():
 
 @app.route("/process_audio", methods=["POST"])
 def process_audio():
-    print("hello")
+    data = request.get_json()
+    audio_file = data["audio_file"]  # should be AWS S3 link
+
+    # call AI API flow function here, gets dict accident info back
+
     return
