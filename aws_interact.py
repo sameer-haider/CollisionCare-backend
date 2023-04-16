@@ -34,7 +34,7 @@ def add_to_s3(audio_base64):
         "get_object", Params={"Bucket": bucket_name, "Key": object_key}
     )
 
-    print(url)
+    return url
 
 
 add_to_s3(audio_base64)
