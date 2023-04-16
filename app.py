@@ -41,8 +41,9 @@ def index():
 @app.route("/process_audio", methods=["POST"])
 def process_audio():
     data = request.get_json()
-    audio_file = data["audio_file"]  # should be AWS S3 link
+    print(data)
     accident_info = data["accident_info"]
+    audio_file = data.get("audio_file")  # should be AWS S3 link
 
     # call AI API flow function here, gets dict accident info back
     accident_info = computing.update_accident_info(audio_file, accident_info)
