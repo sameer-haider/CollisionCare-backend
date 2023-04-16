@@ -20,8 +20,13 @@ def add_to_s3(audio_base64):
     bucket_name = "audio-files-hackai-utd"
     audio_base64 = audio_base64[23:]
 
+    decoded_audio_bytes = base64.urlsafe_b64decode(audio_base64)
+    reencoded_audio_data = (
+        base64.urlsafe_b64encode(decoded_audio_bytes).decode("utf-8") + "=="
+    )
+
     # Decode the audio file from Base64
-    audio_bytes = base64.b64decode(audio_base64)
+    audio_bytes = base64.b64decode(reencoded_audio_data)
 
     # Generate a random object key
     object_key = str(uuid.uuid4())
