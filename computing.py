@@ -32,7 +32,7 @@ def update_accident_info(audio_encoded, accident_info):
                 "spellId": "Mf0I-6b0sGTN_4nf4KJZ2",
                 # Fill in dynamic values for each of your 2 input blocks
                 "inputs": {
-                    "instructions": """The message will be a transcript of a insurance customer who is giving various details about their car crash that just happened. The information will not all be there, but try to format all the info into a bullet point format that an insurance agent can later read and process. If there is some information missing like location of dent in car etc., put that in the bullet list but leave the entry empty.
+                    "instructions": """The message will be a transcript of a insurance customer who is giving various details about their car crash that just happened. The information will not all be there, but try to format all the info into a bullet point format that an insurance agent can later read and process. If there is some information missing like location of dent in car etc., put that in the bullet list but leave the entry empty. Make sure the entry is empty like "" empty string.
 
                     type_severity_of_collision:
                     injuries: 
