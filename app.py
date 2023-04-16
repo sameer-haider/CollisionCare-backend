@@ -1,7 +1,6 @@
 from flask import Flask, request
 from flask_cors import CORS
-
-# import aws_credentials as rds
+import computing
 import os
 
 app = Flask(__name__)
@@ -11,7 +10,7 @@ CORS(app)
 @app.route("/")
 def index():
     print("hello")
-    return
+    return "hello"
 
 
 @app.route("/process_audio", methods=["POST"])
@@ -21,6 +20,7 @@ def process_audio():
     accident_info = data["accident_info"]
 
     # call AI API flow function here, gets dict accident info back
+    accident_info = computing.get_accident_info(audio_file, accident_info)
 
     # return accident info dict
-    return
+    return 202, accident_info
