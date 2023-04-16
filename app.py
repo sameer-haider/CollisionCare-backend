@@ -9,6 +9,7 @@ import mysql.connector
 from models import CollisionReport
 import uuid
 import random
+from generate_email import generate_email
 
 app = Flask(__name__)
 CORS(app)
@@ -105,7 +106,6 @@ def submit_report():
     data = request.get_json()
     report_id = generate_uid()
     report_values = (
-        report_id,
         INSURANCE_ID,
         data["type_severity_of_collision"],
         data["injuries"],
@@ -116,7 +116,7 @@ def submit_report():
         data["police_called"],
         data["car_is_drivable"],
     )
-    query = "INSERT INTO claims_history (report_id,insurance_id, type_severity_of_collision, injuries, vehicles_involved, damage_to_customers_car, location_of_damage, witnesses, police_called, car_is_drivable) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    query = "INSERT INTO claims_history (insurance_id, type_severity_of_collision, injuries, vehicles_involved, damage_to_customers_car, location_of_damage, witnesses, police_called, car_is_drivable) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
     cur = db.cursor()
     cur.execute(query, report_values)
     db.commit()
@@ -125,3 +125,45 @@ def submit_report():
 
 def generate_uid():
     return random.randint(100000, 999999)
+
+@app.route("/get_email/<int:insurance_id>", methods=["GET"])
+def email(insurance_id):
+    columns = [
+        "report_id",
+        "insurance_id",
+        "type_severity_of_collision",
+        "injuries",
+        "vehicles_involved",
+        "damage_to_customers_car",
+        "location_of_damage",
+        "witnesses",
+        "police_called",
+        "car_is_drivable",
+    ]
+    db = mysql.connector.connect(
+        host=os.environ.get("DATABASE_HOST"),
+        user=os.environ.get("DATABASE_USER"),
+        password=os.environ.get("DATABASE_PASSWORD"),
+        database=os.environ.get("DATABASE_NAME"),
+    )
+    query = f'SELECT * FROM claims_history WHERE insurance_id = {insurance_id} ORDER BY report_id DESC LIMIT 1;'
+    cur = db.cursor()
+    cur.execute(query)
+    sql_answers = cur.fetchall()
+
+    fin_reports = []
+    for row in sql_answers:
+        reports = {}
+        for i in range(len(columns)):
+            reports[columns[i]] = row[i]
+        fin_reports.append(reports)
+    #print(fin_reports)
+    values = fin_reports[0]['type_severity_of_collision'], fin_reports[0]['location_of_damage'], fin_reports[0]['car_is_drivable']
+    print(values)
+    response = generate_email(f'Severity of damage - {values[0]}, location of damage - {values[1]}, is the car drivable? - {values[2]}')
+    return response
+
+
+
+
+
