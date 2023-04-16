@@ -63,7 +63,7 @@ def update_accident_info(audio_encoded, accident_info):
         # Strip any whitespace from the key and value
         key = key.strip()
         value = value.strip()
-        print(f"{key}--- {value}")
+        # print(f"{key}--- {value}")
         if accident_info[keys[i]] == "" and len(value) != 0:
             accident_info[keys[i]] = value
 
