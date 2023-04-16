@@ -20,7 +20,7 @@ def process_audio():
     accident_info = data["accident_info"]
 
     # call AI API flow function here, gets dict accident info back
-    accident_info = computing.get_accident_info(audio_file, accident_info)
+    accident_info = computing.update_accident_info(audio_file, accident_info)
 
     # return accident info dict
     return 202, accident_info
