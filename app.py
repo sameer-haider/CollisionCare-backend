@@ -12,3 +12,9 @@ CORS(app)
 def index():
     print("hello")
     return
+
+
+@app.route("process_audio", methods=["POST"])
+def process_audio():
+    print("hello")
+    return
