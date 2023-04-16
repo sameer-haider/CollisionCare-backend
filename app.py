@@ -14,7 +14,7 @@ def index():
     return
 
 
-@app.route("process_audio", methods=["POST"])
+@app.route("/process_audio", methods=["POST"])
 def process_audio():
     print("hello")
     return
