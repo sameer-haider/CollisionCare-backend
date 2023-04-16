@@ -1,5 +1,6 @@
 import requests
 import json
+from flask import Flask, jsonify
 
 keys = ['accident_info', 'type_severity_of_collision', 'injuries', 'vehicles_involved', 'damage_to_customers_car', 'location_of_damage', 'witnesses', 'police_called', 'car_is_drivable']
 requirements = {
@@ -49,13 +50,12 @@ response = requests.post(
 )
 
 
-print(response.json()["outputs"]["text_output_2"])
-
+#print(response.json()["outputs"]["text_output_2"])
 
 
 #Next step is to transform the response into the requirements dictionary
 output = response.json()["outputs"]["text_output_2"]
-#print(type(output))
+
 
 # Split the string at each newline character and iterate over each line
 data_list = output.split('\n')
@@ -70,5 +70,4 @@ for i, line in enumerate(data_list):
         requirements[keys[i]] = value
 
 print(requirements)
-
 
