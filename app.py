@@ -18,7 +18,9 @@ def index():
 def process_audio():
     data = request.get_json()
     audio_file = data["audio_file"]  # should be AWS S3 link
+    accident_info = data["accident_info"]
 
     # call AI API flow function here, gets dict accident info back
 
+    # return accident info dict
     return
