@@ -23,7 +23,7 @@ def add_to_s3(audio_base64):
     audio_bytes = base64.b64decode(audio_base64)
 
     # Generate a random object key
-    object_key = str(uuid.uuid4())
+    object_key = str(uuid.uuid4()) + ".m4a"
 
     # Upload the file to S3
     with io.BytesIO(audio_bytes) as audio_fileobj:
