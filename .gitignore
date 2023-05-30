@@ -1,6 +1,7 @@
 venv/
 .vscode/
 __pycache__/
+.DS_Store
 ```
 
 # Byte-compiled / optimized / DLL files
