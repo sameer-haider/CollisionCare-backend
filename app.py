@@ -38,10 +38,10 @@ def process_audio():
     data = request.get_json()
     print(data)
     accident_info = data["accident_info"]
-    audio_file = data.get("audio_file")  # should be AWS S3 link
+    audio_url = data.get("audio_url")  # should be AWS S3 link
 
     # call AI API flow function here, gets dict accident info back
-    accident_info = computing.update_accident_info(audio_file, accident_info)
+    accident_info = computing.update_accident_info(audio_url, accident_info)
 
     result = {"accident_info": accident_info}
     # return accident info dict
@@ -126,6 +126,7 @@ def submit_report():
 def generate_uid():
     return random.randint(100000, 999999)
 
+
 @app.route("/get_email/<int:insurance_id>", methods=["GET"])
 def email(insurance_id):
     columns = [
@@ -146,7 +147,7 @@ def email(insurance_id):
         password=os.environ.get("DATABASE_PASSWORD"),
         database=os.environ.get("DATABASE_NAME"),
     )
-    query = f'SELECT * FROM claims_history WHERE insurance_id = {insurance_id} ORDER BY report_id DESC LIMIT 1;'
+    query = f"SELECT * FROM claims_history WHERE insurance_id = {insurance_id} ORDER BY report_id DESC LIMIT 1;"
     cur = db.cursor()
     cur.execute(query)
     sql_answers = cur.fetchall()
@@ -157,13 +158,14 @@ def email(insurance_id):
         for i in range(len(columns)):
             reports[columns[i]] = row[i]
         fin_reports.append(reports)
-    #print(fin_reports)
-    values = fin_reports[0]['type_severity_of_collision'], fin_reports[0]['location_of_damage'], fin_reports[0]['car_is_drivable']
+    # print(fin_reports)
+    values = (
+        fin_reports[0]["type_severity_of_collision"],
+        fin_reports[0]["location_of_damage"],
+        fin_reports[0]["car_is_drivable"],
+    )
     print(values)
-    response = generate_email(f'Severity of damage - {values[0]}, location of damage - {values[1]}, is the car drivable? - {values[2]}')
+    response = generate_email(
+        f"Severity of damage - {values[0]}, location of damage - {values[1]}, is the car drivable? - {values[2]}"
+    )
     return response
-
-
-
-
-
