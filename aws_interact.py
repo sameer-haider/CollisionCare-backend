@@ -4,11 +4,8 @@ import uuid
 import io
 import os
 
-# Set environment variables for AWS credentials
-os.environ["AWS_ACCESS_KEY_ID"] = "AKIASDUMV4LADLS5LCWR"
-os.environ["AWS_SECRET_ACCESS_KEY"] = "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"
 
-s3 = boto3.client("s3")
+s3 = boto3.client("s3", region_name="us-east-1")
 
 # get full_report_audio from directory and encode it to base64
 with open("full_report_audio.m4a", "rb") as audio_file:
@@ -17,7 +14,7 @@ with open("full_report_audio.m4a", "rb") as audio_file:
 
 
 def add_to_s3(audio_base64):
-    bucket_name = "audio-files-hackai-utd"
+    bucket_name = "audio-files-collision-care"
 
     # Decode the audio file from Base64
     audio_bytes = base64.b64decode(audio_base64)
