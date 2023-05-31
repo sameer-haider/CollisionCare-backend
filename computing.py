@@ -3,7 +3,9 @@ import json
 import aws_interact
 
 
-def update_accident_info(audio_url, accident_info):
+def update_accident_info(audio_encoded, accident_info):
+    audio_url = aws_interact.add_to_s3(audio_encoded)
+
     keys = [
         "type_severity_of_collision",
         "injuries",
